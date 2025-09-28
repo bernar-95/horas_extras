@@ -1,6 +1,19 @@
 <?php
-  //incluir la conexion a la base de datos de manera global
-  include_once('conexion_sqlserver.php');
+
+    session_start();
+
+    // si no existe la sesion devolvemos al index.php
+    if (! $_SESSION['activo']) {
+        header("Location:index.php");
+    }
+
+    //obtener demas variables de session
+    $cedula = $_SESSION['cedula'];
+    $nombre = $_SESSION['nombre'];
+    $email  = $_SESSION['email'];
+
+    //incluir la conexion a la base de datos de manera global
+    include_once 'conexion_sqlserver.php';
 ?>
 
 <!DOCTYPE html>
@@ -24,15 +37,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
   <!-- daterange picker -->
   <link rel="stylesheet" href="plugins/daterangepicker/daterangepicker.css">
-  
+
   <!-- Tempusdominus Bbootstrap 4 -->
   <link rel="stylesheet" href="plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
-  
+
   <!-- Bootstrap4 Duallistbox -->
   <link rel="stylesheet" href="plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="dist/css/adminlte.min.css">
- 
+
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
@@ -45,10 +58,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <ul class="navbar-nav">
       <li class="nav-item">
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
-      </li>     
-    </ul>   
+      </li>
+    </ul>
 
-    
+
   </nav>
   <!-- /.navbar -->
 
@@ -69,7 +82,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <img src="dist/img/images.png" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <p class="text-white">Alexander Pierce</p>
+          <p class="text-white"><?php echo $cedula; ?></p>
+          <p class="text-white"><?php echo $nombre; ?></p>
+          <p class="text-white"><?php echo $email; ?></p>
         </div>
       </div>
 
@@ -78,12 +93,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-         
+
           <li class="nav-item">
             <a href="panel.php" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
-                Panel de control        
+                Panel de control
               </p>
             </a>
           </li>
@@ -91,7 +106,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <a href="lista_horas.php" class="nav-link">
               <i class="nav-icon fas fa-user-cog"></i>
               <p>
-                Lista Horas Extras      
+                Lista Horas Extras
               </p>
             </a>
           </li>
@@ -99,10 +114,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <a href="lista_usuarios.php" class="nav-link">
               <i class="nav-icon fas fa-users"></i>
               <p>
-                Lista Usuarios      
+                Lista Usuarios
               </p>
             </a>
-          </li>         
+          </li>
+          <li class="nav-item">
+            <a href="salir.php" class="nav-link">
+              <i class="fa-solid fa-arrow-right-from-bracket"></i>
+              <p>
+                Salir
+              </p>
+            </a>
+          </li>
         </ul>
       </nav>
       <!-- /.sidebar-menu -->
@@ -110,7 +133,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- /.sidebar -->
   </aside>
 
-  
+
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -119,7 +142,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <div class="col-sm-6">
             <h1>Lista de Horas Extras</h1>
           </div>
-          
+
         </div>
       </div><!-- /.container-fluid -->
     </section>
@@ -128,5 +151,5 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <section class="content">
       <div class="container-fluid">
         <div class="row">
-          <div class="col-12">          
+          <div class="col-12">
             <div class="card">
